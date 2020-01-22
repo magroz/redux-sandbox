@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import * as actions from '../actions';
 
-const Counter = ({counter, inc, dec, rnd}) => {
+const Counter = ({counter, inc, dec, rnd, change, text}) => {
   return (
     <div className="jumbotron">
       <h2 id="counter">{counter}</h2>
@@ -20,23 +20,22 @@ const Counter = ({counter, inc, dec, rnd}) => {
         onClick={rnd}
         className="btn btn-primary btn-lg"> RND
       </button>
+      <input onChange={(e) => change(e.target.value)}/>
+      <span>{text}</span>
     </div>
   )
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (store) => {
+  console.log(store);
   return {
-    counter: state,
+    counter: store.countShow,
+    text: store.text,
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
-  const {inc, dec, rnd} = bindActionCreators(actions, dispatch);
-  return {
-    inc,
-    dec,
-    rnd,
-  }
+  return bindActionCreators(actions, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Counter);
